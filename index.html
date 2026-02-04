@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>❤️ Walentynka Ultra-Cinematic</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:#12030a;
+  color:white;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+/* tło - orby */
+.bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+.orb{
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  mix-blend-mode:screen;
+  animation:float 20s infinite alternate;
+}
+.o1{background:#ff4d6d;top:10%;left:10%;}
+.o2{background:#ff8fab;top:60%;left:70%;animation-duration:25s;}
+.o3{background:#c9184a;top:40%;left:30%;animation-duration:30s;}
+@keyframes float{to{transform:translate(100px,-150px) scale(1.2)}}
+
+/* card */
+.card{
+  position:relative;
+  z-index:2;
+  width:90%;
+  max-width:420px;
+  padding:30px;
+  border-radius:25px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter: blur(20px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:15px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(50px) scale(.95);
+  transition:0.7s ease;
+}
+.active{opacity:1;transform:translateY(0) scale(1);}
+
+/* headline gradient */
+h1{
+  font-size:30px;
+  font-weight:900;
+  background:linear-gradient(90deg,#fff,#ffd6e0,#fff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shine 5s linear infinite;
+}
+@keyframes shine{to{background-position:200% center}}
+.sub{font-size:16px;opacity:.9}
+
+/* buttons */
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:20px;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.3s;
+}
+.main{background:linear-gradient(135deg,#fff,#ffe5ec);color:#c9184a;}
+.yes{background:linear-gradient(135deg,#00e676,#00c853);color:white;}
+.no{background:linear-gradient(135deg,#ff5252,#d50000);color:white;}
+.btn:hover{transform:scale(1.05);}
+
+/* pulse/shake */
+.pulse{animation:pulse 1.6s infinite;}
+@keyframes pulse{50%{box-shadow:0 0 30px rgba(0,255,150,.8)}}
+.shake{animation:shake .45s infinite;}
+@keyframes shake{25%{transform:translateX(-3px)} 50%{translateX(3px)} 75%{translateX(-3px)}}
+
+/* hearts/confetti */
+.heart{
+  position:absolute;
+  font-size:24px;
+  animation:floatUp linear forwards;
+  z-index:1;
+}
+@keyframes floatUp{to{transform:translateY(-120vh) scale(1.5);opacity:0}}
+
+.drop{
+  position:absolute;
+  font-size:22px;
+  animation:drop 1s forwards;
+  z-index:3;
+}
+@keyframes drop{to{transform:translateY(90px);opacity:0}}
+
+.row{display:flex;gap:12px;width:100%;justify-content:center;}
+
+/* GIF top */
+.gif-top{
+  width:100px;
+  max-width:120px;
+  margin-top:5px;
+}
+</style>
+</head>
+<body>
+
+<div class="bg">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+</div>
+
+<!-- START -->
+<div class="card active" id="start">
+  <h1>Hej ❤️</h1>
+  <div class="sub">Przygotowałem coś wyjątkowego…</div>
+  <button class="btn main" id="startBtn">Zobacz ✨</button>
+</div>
+
+<!-- PYTANIE -->
+<div class="card" id="s1">
+  <img src="https://media.giphy.com/media/3ohhwF34cGDoFFhRfy/giphy.gif" class="gif-top" alt="romantyczne serce">
+  <h1>Mam do Ciebie nietypowe pytanie 💌</h1>
+  <button class="btn main" id="qBtn">Jakie? 👀</button>
+</div>
+
+<!-- GŁÓWNE -->
+<div class="card" id="s2">
+  <img src="https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif" class="gif-top" alt="tańczące serca">
+  <h1 id="q">Zostaniesz moją Walentynką? 💘</h1>
+  <div class="row">
+    <button class="btn yes pulse" id="yes">TAK 💖</button>
+    <button class="btn no" id="no">NIE 😈</button>
+  </div>
+</div>
+
+<script>
+let i=0, scale=1;
+const seq=[
+"Na pewno nie? 😢","A może jednak? 🥺","Daj mi szansę 😌",
+"Serce mi pęka 💔","Nie bądź taka 😄","Ostatnia szansa 😏",
+"Nie poddawaj się! 😢","Proszę… 🥺","Jeszcze raz? 😭"
+];
+
+const start=document.getElementById("start");
+const s1=document.getElementById("s1");
+const s2=document.getElementById("s2");
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const q=document.getElementById("q");
+const startBtn=document.getElementById("startBtn");
+const qBtn=document.getElementById("qBtn");
+
+// START → PYTANIE
+startBtn.onclick = ()=>{
+  start.classList.remove("active");
+  s1.classList.add("active");
+}
+
+// PYTANIE → GŁÓWNE
+qBtn.onclick = ()=>{
+  s1.classList.remove("active");
+  s2.classList.add("active");
+}
+
+// NIE sequence
+no.onclick=()=>{
+  sad();
+  if(i<seq.length){
+    q.innerHTML=seq[i++];
+    scale+=0.2;
+    yes.style.transform=`scale(${scale})`;
+  }
+  if(i===seq.length){
+    no.remove();
+    q.innerHTML="Czuję że odpowiedź jest tylko jedna ❤️";
+    yes.classList.add("shake");
+    yes.style.transform="scale(2)";
+  }
+}
+
+// TAK final
+yes.onclick=()=>{
+  s2.remove();
+  document.body.innerHTML+=`
+  <div class="bg">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+  </div>
+  <img src="https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif" class="gif-top" alt="całujące serca">
+  <div class="card active">
+    <h1>TAK! 💘</h1>
+    <div class="sub">Wiedziałem, kocham Cię ❤️<br>To była Twoja dobra decyzja!</div>
+  </div>`;
+  finale();
+}
+
+// efekty
+function heart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💗";
+  h.style.left=Math.random()*100+"vw";
+  h.style.bottom="-20px";
+  h.style.animationDuration=(5+Math.random()*6)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),11000);
+}
+setInterval(heart,300);
+
+function finale(){
+  for(let k=0;k<240;k++) setTimeout(heart,k*12);
+  const aura=document.createElement("div");
+  aura.style.position="fixed";
+  aura.style.inset=0;
+  aura.style.background="radial-gradient(circle,#fff0 0%,#ff4d6d55 40%,#ff8fab55 80%)";
+  aura.style.pointerEvents="none";
+  aura.style.zIndex="0";
+  document.body.appendChild(aura);
+  setTimeout(()=>aura.remove(),5000);
+}
+
+function sad(){
+  const e=["😢","💔","🥺","😭"];
+  for(let k=0;k<7;k++){
+    const d=document.createElement("div");
+    d.className="drop";
+    d.innerHTML=e[Math.floor(Math.random()*e.length)];
+    d.style.left="50vw";
+    d.style.top="50vh";
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),1000);
+  }
+}
+</script>
+</body>
+</html>
