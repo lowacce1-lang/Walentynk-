@@ -1,2 +1,0 @@
-# Walentynk-
-Tego typu 
